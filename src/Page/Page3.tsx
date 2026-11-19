@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import background1 from "../assets/backgroud1.jpg";
+
 function Page3() {
   const targetDate = new Date(2026, 10, 25, 7, 0, 0).getTime();
 
@@ -54,6 +55,7 @@ function Page3() {
 
   return (
     <div
+      className="page3-container"
       style={{
         width: "100%",
         maxWidth: "426px",
@@ -62,16 +64,59 @@ function Page3() {
         padding: "18px 15px",
         boxSizing: "border-box",
         textAlign: "center",
-          backgroundImage: `url(${background1})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
+        backgroundImage: `url(${background1})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
         overflow: "hidden",
         position: "relative",
       }}
     >
+      {/* CSS responsive mobile */}
+      <style>
+        {`
+          @media (max-width: 480px) {
+            .page3-container {
+              padding: 14px 10px !important;
+            }
+
+            .page3-title {
+              font-size: 17px !important;
+              margin-bottom: 14px !important;
+            }
+
+            .page3-number {
+              font-size: 29px !important;
+            }
+
+            .page3-label {
+              font-size: 10px !important;
+            }
+
+            .page3-clock {
+              gap: 2px !important;
+            }
+          }
+
+          @media (max-width: 360px) {
+            .page3-title {
+              font-size: 15px !important;
+            }
+
+            .page3-number {
+              font-size: 24px !important;
+            }
+
+            .page3-label {
+              font-size: 9px !important;
+            }
+          }
+        `}
+      </style>
+
       {/* Tiêu đề */}
       <h2
+        className="page3-title"
         style={{
           fontFamily: '"Times New Roman", Times, serif',
           fontSize: "25px",
@@ -86,6 +131,7 @@ function Page3() {
 
       {/* Đồng hồ */}
       <div
+        className="page3-clock"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
@@ -111,11 +157,17 @@ function Page3() {
               minWidth: 0,
             }}
           >
-            <span style={numberStyle}>
+            <span
+              className="page3-number"
+              style={numberStyle}
+            >
               {format(item.value)}
             </span>
 
-            <span style={labelStyle}>
+            <span
+              className="page3-label"
+              style={labelStyle}
+            >
               {item.label}
             </span>
           </div>
