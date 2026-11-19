@@ -75,62 +75,6 @@ function Page2() {
           zIndex: 2,
         }}
       >
-        {/* CSS responsive */}
-        <style>
-          {`
-            @keyframes titleFlyZoom {
-              0% {
-                opacity: 0;
-                transform: translateY(-100px) scale(0.5);
-              }
-
-              70% {
-                opacity: 1;
-                transform: translateY(0) scale(1.2);
-              }
-
-              100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-              }
-            }
-
-            @keyframes titlePulse {
-              0%, 100% {
-                transform: scale(1);
-              }
-
-              50% {
-                transform: scale(1.15);
-              }
-            }
-
-            @keyframes contentFade {
-              from {
-                opacity: 0;
-                transform: translateY(35px);
-              }
-
-              to {
-                opacity: 1;
-                transform: translateY(0);
-              }
-            }
-
-            /* Chỉ chỉnh bố cục trên mobile */
-            @media (max-width: 480px) {
-              .page2-text {
-                margin-left: 130px !important;
-                margin-top: 25px !important;
-                width: calc(100% - 145px) !important;
-                max-width: none !important;
-                font-size: 11px !important;
-                line-height: 1.5 !important;
-              }
-            }
-          `}
-        </style>
-
         {/* Tiêu đề */}
         <h1
           style={{
@@ -156,6 +100,56 @@ function Page2() {
           For the besties
           <br />
           OF YOUTH
+
+          <style>
+            {`
+              @keyframes titleFlyZoom {
+                0% {
+                  opacity: 0;
+                  transform: translateY(-100px) scale(0.5);
+                }
+
+                70% {
+                  opacity: 1;
+                  transform: translateY(0) scale(1.2);
+                }
+
+                100% {
+                  opacity: 1;
+                  transform: translateY(0) scale(1);
+                }
+              }
+
+              @keyframes titlePulse {
+                0%, 100% {
+                  transform: scale(1);
+                }
+
+                50% {
+                  transform: scale(1.15);
+                }
+              }
+
+              @keyframes contentFade {
+                from {
+                  opacity: 0;
+                  transform: translateY(35px);
+                }
+
+                to {
+                  opacity: 1;
+                  transform: translateY(0);
+                }
+              }
+
+              /* Chỉ điều chỉnh vị trí chữ trên mobile */
+              @media (max-width: 480px) {
+                .page2-text {
+                  margin-top: 25px !important;
+                }
+              }
+            `}
+          </style>
         </h1>
 
         {/* Nội dung dành cho những người bạn thân */}
