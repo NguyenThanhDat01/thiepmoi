@@ -25,16 +25,6 @@ function Page4() {
       }}
     >
      
-       <div
-  style={{
-    fontFamily: '"Amsterdam Four", cursive',
-    fontSize: "42px",
-    fontWeight: "normal",
-    color: "#4e3039",
-  }}
->
-  Thank You
-</div>
     
 
       {/* Lời cảm ơn */}

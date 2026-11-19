@@ -1,5 +1,5 @@
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
 import nhac from "./assets/nhac2.mp3";
@@ -11,9 +11,14 @@ import Page4 from "./Page/Page4";
 import Page5 from "./Page/Page5";
 import Page6 from "./Page/Page6";
 
+const pages = [Page1, Page2, Page6, Page3, Page4, Page5];
+
 function App() {
   const [opened, setOpened] = useState(false);
+  const [loadedPages, setLoadedPages] = useState(1);
+
   const audioRef = useRef<HTMLAudioElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   const openInvitation = async () => {
     setOpened(true);
@@ -25,24 +30,35 @@ function App() {
     }
   };
 
-  return (
-    <main
-      className="invitation"
-      style={{
-        width: "100%",
-        overflowX: "hidden",
-      }}
-    >
-      {/* Cuộn trang mượt */}
-      <style>
-        {`
-          html {
-            scroll-behavior: smooth;
-          }
-        `}
-      </style>
+  // Chỉ tải trang tiếp theo khi cuộn đến cuối trang hiện tại
+  useEffect(() => {
+    if (!opened || loadedPages >= pages.length) return;
 
-      {/* Nhạc nền */}
+    const target = bottomRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setLoadedPages((current) =>
+            Math.min(current + 1, pages.length)
+          );
+        }
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0,
+      }
+    );
+
+    observer.observe(target);
+
+    return () => observer.disconnect();
+  }, [opened, loadedPages]);
+
+  return (
+    <main className="invitation">
       <audio
         ref={audioRef}
         src={nhac}
@@ -82,18 +98,20 @@ function App() {
           </button>
         </section>
       ) : (
-        <div
-          style={{
-            width: "100%",
-            overflowX: "hidden",
-          }}
-        >
-          <Page1 />
-          <Page2 />
-          <Page6 />
-          <Page3 />
-          <Page4 />
-          <Page5 />
+        <div className="invitation-content">
+          {pages.slice(0, loadedPages).map((Page, index) => (
+            <section className="scroll-page" key={index}>
+              <Page />
+            </section>
+          ))}
+
+          {/* Điểm theo dõi để tải trang tiếp theo */}
+          {loadedPages < pages.length && (
+            <div
+              ref={bottomRef}
+              className="page-loading-trigger"
+            />
+          )}
         </div>
       )}
     </main>

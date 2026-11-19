@@ -100,11 +100,11 @@ function Page6() {
           }
 
           .photo-left.show {
-            animation: flyFromLeft 1s ease-out both;
+            animation: flyFromLeft 2s ease-out both;
           }
 
           .photo-right.show {
-            animation: flyFromRight 1s ease-out 0.2s both;
+            animation: flyFromRight 2s ease-out 0.2s both;
           }
 
           .fly-1.show {
