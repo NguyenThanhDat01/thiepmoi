@@ -319,7 +319,7 @@ function Page5() {
         </p>
 
         <p style={{ margin: "8px 0" }}>
-          💗 Linlin: [Số điện thoại của Linlin]
+          💗 Linlin: 0944 373 809
         </p>
 
         <p style={{ margin: "8px 0" }}>

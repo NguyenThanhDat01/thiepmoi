@@ -1,6 +1,9 @@
 
 import { useEffect, useRef, useState } from "react";
-import background from "../assets/backgourg1.png";
+import background from "../assets/backgourg7.png";
+import anh1 from "../assets/anh1.jpg";
+import anh2 from "../assets/anh2.jpg";
+import anh3 from "../assets/anh3.jpg";
 
 function Page2() {
   const pageRef = useRef<HTMLDivElement>(null);
@@ -33,8 +36,8 @@ function Page2() {
       style={{
         position: "relative",
         width: "100%",
-       
-        
+        maxWidth: "426px",
+        minHeight: "620px",
         margin: "0 auto",
         padding: "20px 16px",
         boxSizing: "border-box",
@@ -129,15 +132,27 @@ function Page2() {
                   transform: scale(1.15);
                 }
               }
+
+              @keyframes contentFade {
+                from {
+                  opacity: 0;
+                  transform: translateY(35px);
+                }
+
+                to {
+                  opacity: 1;
+                  transform: translateY(0);
+                }
+              }
             `}
           </style>
         </h1>
 
-        {/* Nội dung */}
+        {/* Nội dung dành cho những người bạn thân */}
         <div
           style={{
             display: "flex",
-            gap: "15px",
+            justifyContent: "flex-start",
             width: "100%",
             minHeight: "420px",
             position: "relative",
@@ -145,8 +160,93 @@ function Page2() {
             boxSizing: "border-box",
           }}
         >
-          {/* Phần nội dung bên phải */}
-          <div style={{ flex: 1, minWidth: 0 }} />
+
+          {/* KHUNG 3 ẢNH - CHỈ THÊM PHẦN NÀY */}
+          <div
+            style={{
+              position: "absolute",
+              top: "9",
+              left: "0",
+              width: "125px",
+              height: "420px",
+              backgroundColor: "#85132f",
+              padding: "10px 13px",
+              boxSizing: "border-box",
+              display: "flex",
+              flexDirection: "column",
+              gap: "4px",
+              zIndex: 3,
+              opacity: visible ? 1 : 0,
+              animation: visible
+                ? "contentFade 1.5s ease 1s both"
+                : "none",
+            }}
+          >
+            {[anh1, anh2, anh3].map((img, index) => (
+              <img
+                key={index}
+                src={img}
+                alt={`Ảnh ${index + 1}`}
+                style={{
+                  width: "100%",
+                  height: "111px",
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  display: "block",
+                  flexShrink: 0,
+                }}
+              />
+            ))}
+          </div>
+
+          {/* GIỮ NGUYÊN PHẦN CHỮ CỦA BẠN */}
+          <div
+            style={{
+         
+              width: "55%",
+              maxWidth: "285px",
+              marginLeft: "135px",
+              padding: "40px 8px",
+              boxSizing: "border-box",
+              minWidth: 0,
+              color: "#4A1728",
+              fontFamily: "Georgia, serif",
+              fontSize: "clamp(12px, 3.2vw, 13px)",
+              lineHeight: 1.55,
+              textAlign: "justify",
+              opacity: visible ? 1 : 0,
+              animation: visible
+                ? "contentFade 1.5s ease 1s both"
+                : "none",
+            }}
+          >
+            Có những người xuất hiện trong thanh xuân không chỉ để cùng ta
+            đi qua những ngày tháng tuổi trẻ, mà còn để biến những ngày
+            bình thường trở thành những kỷ niệm thật đặc biệt.
+
+            <br />
+            <br />
+
+            Cảm ơn vì đã cùng nhau cười thật nhiều, chia sẻ những câu chuyện
+            chẳng đầu chẳng cuối, cùng trải qua những ngày học tập bận rộn
+            và cả những khoảnh khắc đáng nhớ dưới mái trường.
+
+            <br />
+            <br />
+
+            <div
+              style={{
+                textAlign: "center",
+                fontStyle: "italic",
+                fontWeight: "bold",
+                color: "#a20d36",
+                lineHeight: 1.6,
+              }}
+            >
+              "We may be going different ways, but you'll always be a part
+              of my favorite chapter — Youth."
+            </div>
+          </div>
         </div>
       </div>
     </div>

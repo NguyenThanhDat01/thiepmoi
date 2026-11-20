@@ -1,119 +1,307 @@
 
+/* ==============================
+   RESET
+============================== */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: Georgia, serif;
+html {
+  scroll-behavior: smooth;
 }
 
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: Georgia, serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* ==============================
+   MAIN
+============================== */
+
 .invitation {
+  width: 100%;
   min-height: 100vh;
+  min-height: 100svh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+
   background: linear-gradient(
     135deg,
     #f8edf1,
     #f5ecf0,
     #fff7f9
   );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 25px;
 }
+
+/* ==============================
+   OPENING PAGE
+============================== */
 
 .opening {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   text-align: center;
   color: #98566e;
+
+  padding: 25px 15px;
+  overflow: hidden;
 }
 
+/* ==============================
+   ENVELOPE
+============================== */
+
 .envelope-wrapper {
+  width: 280px;
+  height: 185px;
+
   margin: 0 auto 45px;
+
   perspective: 1000px;
 }
 
 .envelope {
   position: relative;
-  width: 280px;
-  height: 185px;
+  width: 100%;
+  height: 100%;
+
   background: #e9a9bd;
   border-radius: 5px;
+
   box-shadow: 0 15px 35px #9e526033;
 }
+
+/* Mặt sau phong bì */
 
 .envelope-back {
   position: absolute;
   inset: 0;
+
   background: #d88ba6;
+  border-radius: 5px;
+
+  z-index: 1;
 }
+
+/* ==============================
+   ẢNH THIỆP
+============================== */
 
 .envelope-paper {
   position: absolute;
-  width: 85%;
-  height: 90%;
-  left: 7.5%;
-  top: 5%;
-  background: #fffafc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #bd718e;
-  font-style: italic;
+
+  width: 100%;
+  max-width: 100%;
+
+  left: 50%;
+  bottom: 0;
+
+  transform: translateX(-50%);
+
+  background: transparent;
+
+  /* Ban đầu ẩn ảnh thiệp */
+
+  clip-path: inset(100% 0 0 0);
+
+  z-index: 2;
+
+  transition:
+    transform 2.2s cubic-bezier(0.22, 1, 0.36, 1),
+    clip-path 1.5s ease,
+    z-index 0.1s;
 }
+
+.envelope-paper img {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  object-fit: contain;
+}
+
+/* Thiệp trượt lên khi mở */
+
+.opening.opened .envelope-paper {
+  transform: translate(-50%, -125px);
+
+  clip-path: inset(0 0 0 0);
+
+  z-index: 4;
+
+  transition-delay: 0.9s, 0.9s, 0s;
+}
+
+/* ==============================
+   NẮP PHONG BÌ
+============================== */
 
 .envelope-flap {
   position: absolute;
+
   top: 0;
   left: 0;
-  width: 0;
-  height: 0;
-  border-left: 140px solid transparent;
-  border-right: 140px solid transparent;
-  border-top: 110px solid #f4bfd0;
-  transform-origin: top;
-  transition: transform 0.8s;
-  z-index: 3;
+
+  width: 100%;
+  height: 60%;
+
+  background: #f4bfd0;
+
+  /* Tạo hình tam giác cân */
+
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    50% 100%
+  );
+
+  transform-origin: top center;
+  transform: rotateX(0deg);
+
+  transition:
+    transform 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+  z-index: 5;
+
+  backface-visibility: visible;
 }
+
+/* Nắp mở lên */
+
+.opening.opened .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+/* ==============================
+   MẶT TRƯỚC PHONG BÌ
+============================== */
 
 .envelope-front {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    140deg,
-    transparent 49.5%,
-    #e5a1b7 50%
+
+  background: #e5a1b7;
+
+  clip-path: polygon(
+    0 0,
+    50% 58%,
+    100% 0,
+    100% 100%,
+    0 100%
   );
-  z-index: 2;
+
+  z-index: 3;
 }
+
+/* ==============================
+   NƠ
+============================== */
 
 .envelope-bow {
   position: absolute;
-  z-index: 4;
+
+  z-index: 6;
+
   left: 50%;
   top: 60%;
+
   transform: translate(-50%, -50%);
+
   font-size: 43px;
+
+  transition: all 0.5s ease;
 }
+
+/* Nơ biến mất khi mở */
+
+.opening.opened .envelope-bow {
+  opacity: 0;
+
+  transform: translate(-50%, -50%) scale(0.3);
+}
+
+/* ==============================
+   ENVELOPE OPEN ANIMATION
+============================== */
+
+.opening.opened .envelope {
+  animation: envelopeOpen 1.2s ease forwards;
+}
+
+@keyframes envelopeOpen {
+  0% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(8px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* ==============================
+   OPENING TEXT
+============================== */
 
 .opening h2 {
   font-size: 30px;
   margin-bottom: 12px;
+
+  color: #842b40;
+
+  font-family: 'Playfair Display', Georgia, serif;
 }
 
 .opening p {
   margin-bottom: 25px;
+
   font-size: 15px;
+  color: #bd7188;
 }
+
+/* ==============================
+   OPEN BUTTON
+============================== */
 
 .opening button {
   background: #c77e98;
   color: rgb(243, 226, 226);
+
   border: none;
+
   padding: 14px 32px;
   border-radius: 30px;
+
   font-size: 15px;
+
   cursor: pointer;
+
   transition: 0.3s;
 }
 
@@ -122,23 +310,87 @@ body {
   transform: translateY(-3px);
 }
 
+.opening button:disabled {
+  cursor: default;
+  opacity: 0.8;
+}
+
+/* ==============================
+   INVITATION CONTENT
+============================== */
+
+.invitation-content {
+  width: 100%;
+  max-width: 426px;
+
+  margin: 0 auto;
+  padding: 0;
+
+  overflow-x: hidden;
+}
+
+.invitation-content > * {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* ==============================
+   PAGE ANIMATION
+============================== */
+
+.scroll-page {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  animation: fadeInPage 0.8s ease both;
+}
+
+@keyframes fadeInPage {
+  from {
+    opacity: 0.7;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==============================
+   INVITATION CARD
+============================== */
+
 .invitation-card {
   width: 100%;
   max-width: 650px;
+
   min-height: 750px;
+
   background: #fffafc;
   padding: 35px;
+
   border: 8px double #e9bdca;
+
   box-shadow: 0 15px 50px #a85c7520;
+
   animation: appear 1s ease;
 }
 
 .card-content {
   min-height: 650px;
+
   border: 1px solid #edcbd6;
+
   padding: 45px 25px;
+
   text-align: center;
   color: #fdfdfd;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -200,18 +452,96 @@ body {
   font-size: 25px;
 }
 
+/* ==============================
+   CARD ANIMATION
+============================== */
+
 @keyframes appear {
   from {
     opacity: 0;
     transform: translateY(30px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-@media (max-width: 600px) {
+/* ==============================
+   RESPONSIVE MOBILE
+============================== */
+
+@media screen and (max-width: 600px) {
+
+  .opening {
+    padding: 20px 12px;
+  }
+
+  .envelope-wrapper {
+    width: min(280px, 75vw);
+    height: auto;
+
+    aspect-ratio: 280 / 185;
+
+    margin-bottom: 40px;
+  }
+
+  .envelope {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Ảnh thiệp */
+
+  .envelope-paper {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .envelope-paper img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Nắp phong bì tự co theo chiều rộng */
+
+  .envelope-flap {
+    width: 100%;
+    height: 60%;
+  }
+
+  .envelope-bow {
+    font-size: clamp(30px, 10vw, 43px);
+  }
+
+  /* Thiệp trượt lên trên mobile */
+
+  .opening.opened .envelope-paper {
+    transform: translate(-50%, -22vw);
+  }
+
+  .opening h2 {
+    font-size: 26px;
+  }
+
+  .opening p {
+    font-size: 13px;
+    padding: 0 10px;
+  }
+
+  .opening button {
+    padding: 13px 30px;
+    font-size: 14px;
+  }
+
+  /* Nội dung các Page */
+
+  .invitation-content {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .invitation-card {
     padding: 15px;
     min-height: auto;
@@ -228,167 +558,32 @@ body {
   .name {
     font-size: 23px;
   }
-  
-/* Cuộn trang mượt */
-html {
-  scroll-behavior: smooth;
 }
 
-/* Chỉ ngăn tràn ngang, không can thiệp kích thước từng Page */
-.invitation-content {
-  overflow-x: hidden;
-}
+/* ==============================
+   MOBILE NHỎ
+============================== */
 
-* {
-  box-sizing: border-box;
-}
+@media screen and (max-width: 360px) {
 
-html,
-body,
-#root {
-  width: 100%;
-  min-height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  overflow-x: hidden;
-}
-
-.invitation {
-  width: 100%;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-.invitation-content {
-  width: 100%;
-  max-width: 426px;
-  margin: 0 auto;
-  padding: 0;
-  overflow: hidden;
-}
-
-.invitation-content > * {
-  width: 100%;
-  margin-left: 0;
-  margin-right: 0;
-}
-
-@media screen and (max-width: 426px) {
-  .invitation-content {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
-  }
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-.invitation {
-  width: 100%;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-.invitation-content {
-  width: 100%;
-  max-width: 426px;
-  margin: 0 auto;
-  padding: 0;
-}
-
-.scroll-page {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-
-  animation: pageAppear 0.8s ease both;
-}
-
-@keyframes pageAppear {
-  from {
-    opacity: 0.7;
-    transform: translateY(20px);
+  .opening h2 {
+    font-size: 23px;
   }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (max-width: 426px) {
-  .invitation-content {
-    max-width: 100%;
-  }
-}
-
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-.invitation {
-  width: 100%;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-.invitation-content {
-  width: 100%;
-  max-width: 426px;
-  margin: 0 auto;
-  padding: 0;
-}
-
-.scroll-page {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-/* Hiệu ứng xuất hiện khi cuộn tới */
-.scroll-page {
-  animation: fadeInPage 0.8s ease both;
-}
-
-@keyframes fadeInPage {
-  from {
-    opacity: 0;
-    transform: translateY(25px);
+  .opening p {
+    font-size: 12px;
   }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .opening button {
+    padding: 12px 25px;
+    font-size: 13px;
   }
-}
 
-@media (max-width: 426px) {
-  .invitation-content {
-    max-width: 100%;
+  .invitation-card {
+    padding: 10px;
   }
-}
 
+  .card-content h1 {
+    font-size: 28px;
+  }
 }
