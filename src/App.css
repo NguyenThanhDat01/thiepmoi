@@ -148,12 +148,13 @@ body {
 ============================== */
 
 .opening.opened .envelope-paper {
-  /* Thiệp nhô lên cao hơn */
-  transform: translate(-50%, -100px);
+  /* Thiệp nhô lên một đoạn */
+  transform: translate(-50%, -70px);
 
-  /* Hiện toàn bộ ảnh thiệp */
+  /* Hiện ảnh từ từ */
   clip-path: inset(0 0 0 0);
 
+  /* Giữ phía sau mặt trước */
   z-index: 2;
 
   transition-delay: 0.9s, 0.9s;
@@ -216,6 +217,7 @@ body {
     0 100%
   );
 
+  /* Quan trọng: che phần dưới của ảnh thiệp */
   z-index: 3;
 }
 
@@ -514,10 +516,10 @@ body {
     height: auto;
   }
 
-  /* Thiệp nhô lên cao hơn trên mobile */
+  /* Thiệp nhô lên nhẹ trên mobile */
 
   .opening.opened .envelope-paper {
-    transform: translate(-50%, -25vw);
+    transform: translate(-50%, -20vw);
     z-index: 2;
   }
 
