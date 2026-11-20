@@ -92,7 +92,9 @@ body {
   box-shadow: 0 15px 35px #9e526033;
 }
 
-/* Mặt sau phong bì */
+/* ==============================
+   MẶT SAU PHONG BÌ
+============================== */
 
 .envelope-back {
   position: absolute;
@@ -122,15 +124,14 @@ body {
   background: transparent;
 
   /* Ban đầu ẩn ảnh thiệp */
-
   clip-path: inset(100% 0 0 0);
 
+  /* Ảnh nằm sau mặt trước phong bì */
   z-index: 2;
 
   transition:
-    transform 2.2s cubic-bezier(0.22, 1, 0.36, 1),
-    clip-path 1.5s ease,
-    z-index 0.1s;
+    transform 2.8s cubic-bezier(0.22, 1, 0.36, 1),
+    clip-path 2.2s ease;
 }
 
 .envelope-paper img {
@@ -142,16 +143,20 @@ body {
   object-fit: contain;
 }
 
-/* Thiệp trượt lên khi mở */
+/* ==============================
+   THIỆP TRƯỢT LÊN KHI MỞ
+============================== */
 
 .opening.opened .envelope-paper {
-  transform: translate(-50%, -125px);
+  /* Thiệp nhô lên cao hơn */
+  transform: translate(-50%, -100px);
 
+  /* Hiện toàn bộ ảnh thiệp */
   clip-path: inset(0 0 0 0);
 
-  z-index: 4;
+  z-index: 2;
 
-  transition-delay: 0.9s, 0.9s, 0s;
+  transition-delay: 0.9s, 0.9s;
 }
 
 /* ==============================
@@ -168,8 +173,6 @@ body {
   height: 60%;
 
   background: #f4bfd0;
-
-  /* Tạo hình tam giác cân */
 
   clip-path: polygon(
     0 0,
@@ -244,7 +247,7 @@ body {
 }
 
 /* ==============================
-   ENVELOPE OPEN ANIMATION
+   ENVELOPE ANIMATION
 ============================== */
 
 .opening.opened .envelope {
@@ -497,6 +500,13 @@ body {
   .envelope-paper {
     width: 100%;
     max-width: 100%;
+
+    left: 50%;
+    bottom: 0;
+
+    transform: translateX(-50%);
+
+    z-index: 2;
   }
 
   .envelope-paper img {
@@ -504,7 +514,14 @@ body {
     height: auto;
   }
 
-  /* Nắp phong bì tự co theo chiều rộng */
+  /* Thiệp nhô lên cao hơn trên mobile */
+
+  .opening.opened .envelope-paper {
+    transform: translate(-50%, -25vw);
+    z-index: 2;
+  }
+
+  /* Nắp phong bì */
 
   .envelope-flap {
     width: 100%;
@@ -513,12 +530,6 @@ body {
 
   .envelope-bow {
     font-size: clamp(30px, 10vw, 43px);
-  }
-
-  /* Thiệp trượt lên trên mobile */
-
-  .opening.opened .envelope-paper {
-    transform: translate(-50%, -22vw);
   }
 
   .opening h2 {
