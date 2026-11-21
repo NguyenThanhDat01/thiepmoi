@@ -49,33 +49,51 @@ function App() {
 
   // Tự khôi phục nhạc khi quay lại website
   useEffect(() => {
-  const handleReturn = () => {
-    if (document.visibilityState !== "visible") return;
-    if (!hasStarted.current) return;
+    let timers: ReturnType<typeof setTimeout>[] = [];
 
-    resumeAudio();
-  };
+    const handleReturn = () => {
+      if (document.visibilityState !== "visible") return;
+      if (!hasStarted.current) return;
 
-  const handlePlay = () => {
-    setNeedsResume(false);
-  };
+      // Thử lại sau khi trình duyệt khôi phục tab
+      timers.forEach(clearTimeout);
+      timers = [];
 
-  const audio = audioRef.current;
+      timers.push(
+        setTimeout(() => {
+          resumeAudio();
+        }, 100)
+      );
 
-  document.addEventListener("visibilitychange", handleReturn);
-  window.addEventListener("pageshow", handleReturn);
-  window.addEventListener("focus", handleReturn);
+      timers.push(
+        setTimeout(() => {
+          resumeAudio();
+        }, 300)
+      );
+    };
 
-  audio?.addEventListener("playing", handlePlay);
+    const handlePlay = () => {
+      setNeedsResume(false);
+    };
 
-  return () => {
-    document.removeEventListener("visibilitychange", handleReturn);
-    window.removeEventListener("pageshow", handleReturn);
-    window.removeEventListener("focus", handleReturn);
+    const audio = audioRef.current;
 
-    audio?.removeEventListener("playing", handlePlay);
-  };
-}, []);
+    document.addEventListener("visibilitychange", handleReturn);
+    window.addEventListener("pageshow", handleReturn);
+    window.addEventListener("focus", handleReturn);
+
+    audio?.addEventListener("playing", handlePlay);
+
+    return () => {
+      timers.forEach(clearTimeout);
+
+      document.removeEventListener("visibilitychange", handleReturn);
+      window.removeEventListener("pageshow", handleReturn);
+      window.removeEventListener("focus", handleReturn);
+
+      audio?.removeEventListener("playing", handlePlay);
+    };
+  }, []);
 
   // Mở thiệp và phát nhạc
   const openInvitation = async () => {
