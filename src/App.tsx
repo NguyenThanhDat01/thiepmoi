@@ -19,31 +19,40 @@ function App() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const hasStarted = useRef(false);
 
-  // Theo dõi và tiếp tục nhạc khi quay lại website
+  // Tự thử tiếp tục nhạc khi quay lại website
   useEffect(() => {
-    const resumeAudio = () => {
-      const audio = audioRef.current;
+    const audio = audioRef.current;
+    if (!audio) return;
 
+    const resumeAudio = async () => {
       if (
-        document.visibilityState === "visible" &&
         hasStarted.current &&
-        audio &&
-        audio.paused
+        document.visibilityState === "visible" &&
+        audio.paused &&
+        !audio.ended
       ) {
-        audio.play().catch((error) => {
-          console.log("Không thể tự phát lại nhạc:", error);
-        });
+        try {
+          await audio.play();
+        } catch (error) {
+          console.log("Không thể tiếp tục phát nhạc:", error);
+        }
       }
     };
 
-    document.addEventListener("visibilitychange", resumeAudio);
-    window.addEventListener("pageshow", resumeAudio);
-    window.addEventListener("focus", resumeAudio);
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") {
+        resumeAudio();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibility);
+    window.addEventListener("pageshow", handleVisibility);
+    window.addEventListener("focus", handleVisibility);
 
     return () => {
-      document.removeEventListener("visibilitychange", resumeAudio);
-      window.removeEventListener("pageshow", resumeAudio);
-      window.removeEventListener("focus", resumeAudio);
+      document.removeEventListener("visibilitychange", handleVisibility);
+      window.removeEventListener("pageshow", handleVisibility);
+      window.removeEventListener("focus", handleVisibility);
     };
   }, []);
 
@@ -85,8 +94,10 @@ function App() {
       {!showContent ? (
         <section className={`opening ${opened ? "opened" : ""}`}>
 
+          {/* Phong bì */}
           <div className="envelope-wrapper">
             <div className="envelope">
+
               <div className="envelope-back" />
 
               <div className="envelope-paper">
@@ -97,15 +108,20 @@ function App() {
               </div>
 
               <div className="envelope-flap" />
+
               <div className="envelope-front" />
 
               <div className="envelope-bow">
                 🎀
               </div>
+
             </div>
           </div>
 
-          <h2>Thân mời bạn</h2>
+          {/* Lời mời */}
+          <h2>
+            Thân mời bạn
+          </h2>
 
           <p>
             Một lời mời nhỏ, một ngày thật đặc biệt
