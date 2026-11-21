@@ -15,12 +15,13 @@ import Page6 from "./Page/Page6";
 function App() {
   const [opened, setOpened] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [needsResume, setNeedsResume] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const hasStarted = useRef(false);
   const isResuming = useRef(false);
 
-  // Tự động tiếp tục nhạc
+  // Thử tiếp tục nhạc
   const resumeAudio = async () => {
     const audio = audioRef.current;
 
@@ -37,42 +38,60 @@ function App() {
 
     try {
       await audio.play();
-      console.log("Nhạc đã tiếp tục phát!");
+      setNeedsResume(false);
     } catch (error) {
-      console.log("Trình duyệt đang chặn tự động phát nhạc:", error);
+      console.log("Trình duyệt chưa cho phép phát nhạc:", error);
+      setNeedsResume(true);
     } finally {
       isResuming.current = false;
     }
   };
 
-  // Tự động phát lại ngay khi quay về website
+  // Tự khôi phục nhạc khi quay lại website
   useEffect(() => {
-    const handleVisibility = () => {
-      if (document.visibilityState === "visible") {
-        resumeAudio();
-      }
-    };
+    let timers: ReturnType<typeof setTimeout>[] = [];
 
-    const handleFocus = () => {
-      resumeAudio();
-    };
+    const handleReturn = () => {
+      if (document.visibilityState !== "visible") return;
+      if (!hasStarted.current) return;
 
-    document.addEventListener(
-      "visibilitychange",
-      handleVisibility
-    );
+      // Thử lại sau khi trình duyệt khôi phục tab
+      timers.forEach(clearTimeout);
+      timers = [];
 
-    window.addEventListener("pageshow", handleFocus);
-    window.addEventListener("focus", handleFocus);
-
-    return () => {
-      document.removeEventListener(
-        "visibilitychange",
-        handleVisibility
+      timers.push(
+        setTimeout(() => {
+          resumeAudio();
+        }, 300)
       );
 
-      window.removeEventListener("pageshow", handleFocus);
-      window.removeEventListener("focus", handleFocus);
+      timers.push(
+        setTimeout(() => {
+          resumeAudio();
+        }, 1000)
+      );
+    };
+
+    const handlePlay = () => {
+      setNeedsResume(false);
+    };
+
+    const audio = audioRef.current;
+
+    document.addEventListener("visibilitychange", handleReturn);
+    window.addEventListener("pageshow", handleReturn);
+    window.addEventListener("focus", handleReturn);
+
+    audio?.addEventListener("playing", handlePlay);
+
+    return () => {
+      timers.forEach(clearTimeout);
+
+      document.removeEventListener("visibilitychange", handleReturn);
+      window.removeEventListener("pageshow", handleReturn);
+      window.removeEventListener("focus", handleReturn);
+
+      audio?.removeEventListener("playing", handlePlay);
     };
   }, []);
 
@@ -90,8 +109,10 @@ function App() {
 
       try {
         await audio.play();
+        setNeedsResume(false);
       } catch (error) {
         console.log("Không thể phát nhạc:", error);
+        setNeedsResume(true);
       }
     }
 
@@ -99,6 +120,20 @@ function App() {
     setTimeout(() => {
       setShowContent(true);
     }, 4000);
+  };
+
+  // Bật lại nhạc khi trình duyệt chặn tự động
+  const handleResumeMusic = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    try {
+      await audio.play();
+      setNeedsResume(false);
+    } catch (error) {
+      console.log("Không thể tiếp tục phát nhạc:", error);
+      setNeedsResume(true);
+    }
   };
 
   return (
@@ -118,7 +153,6 @@ function App() {
           {/* Phong bì */}
           <div className="envelope-wrapper">
             <div className="envelope">
-
               <div className="envelope-back" />
 
               <div className="envelope-paper">
@@ -129,13 +163,11 @@ function App() {
               </div>
 
               <div className="envelope-flap" />
-
               <div className="envelope-front" />
 
               <div className="envelope-bow">
                 🎀
               </div>
-
             </div>
           </div>
 
@@ -155,7 +187,6 @@ function App() {
 
         </section>
       ) : (
-
         <div className="invitation-content">
           <Page1 />
           <Page2 />
@@ -164,7 +195,29 @@ function App() {
           <Page4 />
           <Page5 />
         </div>
+      )}
 
+      {/* Chỉ hiện khi trình duyệt từ chối tự phát nhạc */}
+      {needsResume && opened && (
+        <button
+          onClick={handleResumeMusic}
+          style={{
+            position: "fixed",
+            right: "16px",
+            bottom: "20px",
+            zIndex: 99999,
+            padding: "10px 18px",
+            border: "none",
+            borderRadius: "30px",
+            background: "#7c1c27",
+            color: "#fff",
+            fontSize: "14px",
+            cursor: "pointer",
+            boxShadow: "0 3px 12px rgba(0,0,0,0.2)",
+          }}
+        >
+          ▶ Tiếp tục nhạc
+        </button>
       )}
 
     </main>
