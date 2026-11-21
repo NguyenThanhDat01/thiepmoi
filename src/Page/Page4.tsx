@@ -39,7 +39,7 @@ function Page4() {
         <p
           style={{
             fontSize: "13px",
-            lineHeight: 1.7,
+            lineHeight: 1.2,
             marginBottom: "16px",
             textIndent: "20px",
           }}
@@ -52,7 +52,7 @@ function Page4() {
         <p
           style={{
             fontSize: "13px",
-            lineHeight: 1.7,
+            lineHeight: 1.2,
             marginBottom: "16px",
             textIndent: "20px",
           }}
@@ -68,7 +68,7 @@ function Page4() {
         <p
           style={{
             fontSize: "13px",
-            lineHeight: 1.7,
+            lineHeight: 1.2,
             marginBottom: "16px",
             textIndent: "20px",
           }}
@@ -82,7 +82,7 @@ function Page4() {
         <p
           style={{
             fontSize: "13px",
-            lineHeight: 1.7,
+            lineHeight: 1.2,
             marginBottom: "16px",
             textIndent: "20px",
           }}

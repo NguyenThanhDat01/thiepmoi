@@ -1,10 +1,11 @@
 
 import { useEffect, useRef, useState } from "react";
-import background from "../assets/backgourg1.png";
+import background from "../assets/backgourg6.png";
 import anh1 from "../assets/anh1.jpg";
 import anh2 from "../assets/anh2.jpg";
 import anh3 from "../assets/anh3.jpg";
 import noDo from "../assets/backgourg7.png";
+import noDoTop from "../assets/backgourg8.png";
 
 function Page2() {
   const pageRef = useRef<HTMLDivElement>(null);
@@ -45,7 +46,7 @@ function Page2() {
         overflow: "hidden",
       }}
     >
-      {/* Background bay từ dưới lên kết hợp zoom nhẹ */}
+      {/* BACKGROUND */}
       <div
         style={{
           position: "absolute",
@@ -64,6 +65,28 @@ function Page2() {
         }}
       />
 
+      {/* NƠ ĐỎ MỚI - GÓC TRÊN BÊN PHẢI */}
+      <img
+        src={noDoTop}
+        alt="Nơ đỏ góc trên"
+        style={{
+          position: "absolute",
+          top: "55px",
+          right: "-27px",
+          width: "180px",
+          height: "auto",
+          objectFit: "contain",
+          zIndex: 4,
+          pointerEvents: "none",
+          opacity: visible ? 1 : 0,
+          transform: visible
+            ? "translateY(0)"
+            : "translateY(-25px)",
+          transition:
+            "opacity 1.5s ease 0.8s, transform 1.5s ease 0.8s",
+        }}
+      />
+
       <div
         style={{
           width: "100%",
@@ -79,7 +102,7 @@ function Page2() {
           zIndex: 2,
         }}
       >
-        {/* Tiêu đề */}
+        {/* TIÊU ĐỀ */}
         <h1
           style={{
             width: "100%",
@@ -148,7 +171,7 @@ function Page2() {
           </style>
         </h1>
 
-        {/* Nội dung dành cho những người bạn thân */}
+        {/* NỘI DUNG */}
         <div
           style={{
             display: "flex",
@@ -198,10 +221,10 @@ function Page2() {
               />
             ))}
 
-            {/* NƠ Ở ĐÁY KHUNG 3 ẢNH */}
+            {/* NƠ CŨ Ở ĐÁY KHUNG 3 ẢNH */}
             <img
               src={noDo}
-              alt="Nơ trang trí"
+              alt="Nơ trang trí phía dưới"
               style={{
                 position: "absolute",
                 bottom: "-30px",
@@ -222,14 +245,14 @@ function Page2() {
               width: "55%",
               maxWidth: "285px",
               marginLeft: "135px",
-              marginTop: "-8px",
+              marginTop: "5px",
               padding: "20px 8px",
               boxSizing: "border-box",
               minWidth: 0,
               color: "#4A1728",
               fontFamily: '"Times New Roman", Times, serif',
               fontSize: "clamp(12px, 3.2vw, 13px)",
-              lineHeight: 1.25,
+              lineHeight: 1.0,
               textAlign: "justify",
               opacity: visible ? 1 : 0,
               animation: visible
@@ -241,6 +264,7 @@ function Page2() {
               style={{
                 textIndent: "18px",
                 margin: "0 0 12px",
+                width: "70%",
               }}
             >
               Một hành trình tại IUH đã khép lại, mang theo những tháng ngày
