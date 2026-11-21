@@ -243,7 +243,7 @@ function Page2() {
                 margin: "0 0 12px",
               }}
             >
-              Một hành trình tại IUH đã dần khép lại, mang theo những tháng ngày
+              Một hành trình tại IUH đã khép lại, mang theo những tháng ngày
               đáng nhớ, từ những bỡ ngỡ đầu tiên khi bước chân vào giảng đường
               đến những lúc trưởng thành hơn qua từng bài học, thử thách và trải
               nghiệm.
