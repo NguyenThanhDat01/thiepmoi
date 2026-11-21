@@ -21,7 +21,7 @@ function App() {
   const hasStarted = useRef(false);
   const isResuming = useRef(false);
 
-  // Hàm tiếp tục phát nhạc
+  // Hàm tiếp tục nhạc
   const resumeAudio = async () => {
     const audio = audioRef.current;
 
@@ -47,7 +47,7 @@ function App() {
     }
   };
 
-  // Tự động thử phát nhạc mỗi lần quay lại website
+  // Tự động tiếp tục nhạc ngay khi quay lại website
   useEffect(() => {
     const handleVisibility = () => {
       if (document.visibilityState === "visible") {
@@ -93,7 +93,7 @@ function App() {
     }, 4000);
   };
 
-  // Người dùng bấm để tiếp tục nhạc nếu Chrome chặn
+  // Người dùng bấm tiếp tục nhạc nếu trình duyệt chặn
   const handleResumeMusic = async () => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -103,6 +103,7 @@ function App() {
       setNeedsResume(false);
     } catch (error) {
       console.log("Không thể tiếp tục phát nhạc:", error);
+      setNeedsResume(true);
     }
   };
 
@@ -123,6 +124,7 @@ function App() {
           {/* Phong bì */}
           <div className="envelope-wrapper">
             <div className="envelope">
+
               <div className="envelope-back" />
 
               <div className="envelope-paper">
@@ -133,11 +135,13 @@ function App() {
               </div>
 
               <div className="envelope-flap" />
+
               <div className="envelope-front" />
 
               <div className="envelope-bow">
                 🎀
               </div>
+
             </div>
           </div>
 
@@ -157,6 +161,7 @@ function App() {
 
         </section>
       ) : (
+
         <div className="invitation-content">
           <Page1 />
           <Page2 />
@@ -165,6 +170,7 @@ function App() {
           <Page4 />
           <Page5 />
         </div>
+
       )}
 
       {/* Chỉ hiện khi trình duyệt không cho tự phát nhạc */}
