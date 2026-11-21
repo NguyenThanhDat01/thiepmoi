@@ -21,16 +21,18 @@ function App() {
   const hasStarted = useRef(false);
   const isResuming = useRef(false);
 
-  // Phát hoặc tiếp tục nhạc
+  // Thử tiếp tục nhạc
   const resumeAudio = async () => {
     const audio = audioRef.current;
 
-    if (!audio || !hasStarted.current || isResuming.current) {
+    if (
+      !audio ||
+      !hasStarted.current ||
+      !audio.paused ||
+      isResuming.current
+    ) {
       return;
     }
-
-    // Nếu nhạc đang phát thì không làm gì
-    if (!audio.paused) return;
 
     isResuming.current = true;
 
@@ -38,52 +40,58 @@ function App() {
       await audio.play();
       setNeedsResume(false);
     } catch (error) {
-      console.log("Không thể tự động phát nhạc:", error);
+      console.log("Trình duyệt chưa cho phép phát nhạc:", error);
       setNeedsResume(true);
     } finally {
       isResuming.current = false;
     }
   };
 
-  // Tự khôi phục nhạc khi quay lại tab
+  // Tự khôi phục nhạc khi quay lại website
   useEffect(() => {
-    const audio = audioRef.current;
+    let timers: ReturnType<typeof setTimeout>[] = [];
 
     const handleReturn = () => {
       if (document.visibilityState !== "visible") return;
       if (!hasStarted.current) return;
 
-      // Thử phát nhạc ngay lập tức
-      resumeAudio();
+      // Thử lại sau khi trình duyệt khôi phục tab
+      timers.forEach(clearTimeout);
+      timers = [];
+
+      timers.push(
+        setTimeout(() => {
+          resumeAudio();
+        }, 100)
+      );
+
+      timers.push(
+        setTimeout(() => {
+          resumeAudio();
+        }, 300)
+      );
     };
 
     const handlePlay = () => {
       setNeedsResume(false);
     };
 
-    const handlePause = () => {
-      if (
-        hasStarted.current &&
-        document.visibilityState === "visible"
-      ) {
-        setNeedsResume(true);
-      }
-    };
+    const audio = audioRef.current;
 
     document.addEventListener("visibilitychange", handleReturn);
     window.addEventListener("pageshow", handleReturn);
     window.addEventListener("focus", handleReturn);
 
     audio?.addEventListener("playing", handlePlay);
-    audio?.addEventListener("pause", handlePause);
 
     return () => {
+      timers.forEach(clearTimeout);
+
       document.removeEventListener("visibilitychange", handleReturn);
       window.removeEventListener("pageshow", handleReturn);
       window.removeEventListener("focus", handleReturn);
 
       audio?.removeEventListener("playing", handlePlay);
-      audio?.removeEventListener("pause", handlePause);
     };
   }, []);
 
@@ -117,11 +125,9 @@ function App() {
   // Bật lại nhạc khi trình duyệt chặn tự động
   const handleResumeMusic = async () => {
     const audio = audioRef.current;
-
     if (!audio) return;
 
     try {
-      hasStarted.current = true;
       await audio.play();
       setNeedsResume(false);
     } catch (error) {
