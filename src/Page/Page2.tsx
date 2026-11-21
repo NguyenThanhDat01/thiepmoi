@@ -1,9 +1,10 @@
+
 import { useEffect, useRef, useState } from "react";
 import background from "../assets/backgourg1.png";
 import anh1 from "../assets/anh1.jpg";
 import anh2 from "../assets/anh2.jpg";
 import anh3 from "../assets/anh3.jpg";
-import noDo from "../assets/backgourg7.png"; // Đổi đúng tên file ảnh nơ của bạn
+import noDo from "../assets/backgourg7.png";
 
 function Page2() {
   const pageRef = useRef<HTMLDivElement>(null);
@@ -93,7 +94,6 @@ function Page2() {
               "2px 2px white, -2px -2px white, 2px -2px white, -2px 2px white",
             position: "relative",
             zIndex: 2,
-
             opacity: visible ? 1 : 0,
             animation: visible
               ? "titleFlyZoom 2s ease forwards, titlePulse 1.5s ease-in-out 2s infinite"
@@ -160,8 +160,7 @@ function Page2() {
             boxSizing: "border-box",
           }}
         >
-
-          {/* KHUNG 3 ẢNH - CHỈ THÊM PHẦN NÀY */}
+          {/* KHUNG 3 ẢNH */}
           <div
             style={{
               position: "absolute",
@@ -217,14 +216,13 @@ function Page2() {
             />
           </div>
 
-          {/* GIỮ NGUYÊN PHẦN CHỮ CỦA BẠN */}
+          {/* PHẦN CHỮ */}
           <div
             style={{
-         
               width: "55%",
               maxWidth: "285px",
               marginLeft: "135px",
-               marginTop: "-8px",
+              marginTop: "-8px",
               padding: "20px 8px",
               boxSizing: "border-box",
               minWidth: 0,
@@ -238,22 +236,42 @@ function Page2() {
                 ? "contentFade 1.5s ease 1s both"
                 : "none",
             }}
-            
- >
-  Một hành trình tại IUH đã dần khép lại, mang theo những tháng ngày đáng nhớ, từ những bỡ ngỡ đầu tiên khi bước chân vào giảng đường đến những lúc 
-           trưởng thành hơn qua từng bài học, thử thách và trải nghiệm.
+          >
+            <p
+              style={{
+                textIndent: "18px",
+                margin: "0 0 12px",
+              }}
+            >
+              Một hành trình tại IUH đã dần khép lại, mang theo những tháng ngày
+              đáng nhớ, từ những bỡ ngỡ đầu tiên khi bước chân vào giảng đường
+              đến những lúc trưởng thành hơn qua từng bài học, thử thách và trải
+              nghiệm.
+            </p>
 
-            <br />
-            <br />
+            <p
+              style={{
+                textIndent: "18px",
+                margin: "0 0 12px",
+              }}
+            >
+              Trên hành trình ấy, mình thật may mắn khi luôn nhận được sự yêu
+              thương, quan tâm và đồng hành từ gia đình, thầy cô, bạn bè, anh
+              chị cùng những người đã từng gặp gỡ. Cảm ơn tất cả vì đã góp phần
+              tạo nên một quãng đời sinh viên thật nhiều ý nghĩa và kỷ niệm đẹp.
+            </p>
 
-Trên hành trình ấy, mình thật may mắn khi luôn nhận được sự yêu thương, quan tâm và đồng hành từ gia đình, thầy cô, bạn bè, anh chị cùng những người đã từng gặp gỡ. Cảm ơn tất cả vì đã góp phần tạo nên một quãng đời sinh viên thật nhiều ý nghĩa và kỷ niệm đẹp.
-            <br />
-             <br />
-
-Tấm bằng tốt nghiệp hôm nay không chỉ là dấu mốc của những nỗ lực đã qua, mà còn là khởi đầu cho những ước mơ mới. Mong rằng mỗi chúng ta sẽ luôn vững bước, gặp nhiều may mắn và tỏa sáng trên hành trình phía trước! ❤️            <br />
-            <br />
-
-           
+            <p
+              style={{
+                textIndent: "18px",
+                margin: 0,
+              }}
+            >
+              Tấm bằng tốt nghiệp hôm nay không chỉ là dấu mốc của những nỗ lực
+              đã qua, mà còn là khởi đầu cho những ước mơ mới. Mong rằng mỗi
+              chúng ta sẽ luôn vững bước, gặp nhiều may mắn và tỏa sáng trên
+              hành trình phía trước! ❤️
+            </p>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
 import nhac from "./assets/nhac2.mp3";
@@ -18,6 +18,32 @@ function App() {
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  // Thử phát lại nhạc khi quay về website
+  useEffect(() => {
+    const resumeAudio = () => {
+      const audio = audioRef.current;
+
+      if (
+        document.visibilityState === "visible" &&
+        opened &&
+        audio &&
+        audio.paused
+      ) {
+        audio.play().catch((error) => {
+          console.log("Trình duyệt chưa cho phép phát lại nhạc:", error);
+        });
+      }
+    };
+
+    document.addEventListener("visibilitychange", resumeAudio);
+    window.addEventListener("pageshow", resumeAudio);
+
+    return () => {
+      document.removeEventListener("visibilitychange", resumeAudio);
+      window.removeEventListener("pageshow", resumeAudio);
+    };
+  }, [opened]);
+
   const openInvitation = async () => {
     if (opened) return;
 
@@ -32,19 +58,19 @@ function App() {
     // Đợi hiệu ứng mở phong bì hoàn tất
     setTimeout(() => {
       setShowContent(true);
-    }, 3000);
+    }, 4000);
   };
 
   return (
     <main className="invitation">
 
       {/* Nhạc nền */}
-      { <audio
+      <audio
         ref={audioRef}
         src={nhac}
         loop
         preload="auto"
-      /> }
+      />
 
       {!showContent ? (
         <section className={`opening ${opened ? "opened" : ""}`}>

@@ -320,7 +320,7 @@ function Page6() {
         className={`fly-6 ${animationClass}`}
         href="https://www.google.com/maps/search/?api=1&query=Truong+Dai+hoc+Cong+nghiep+Thanh+pho+Ho+Chi+Minh"
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         style={{
           display: "inline-block",
           backgroundColor: "#8d1535",
