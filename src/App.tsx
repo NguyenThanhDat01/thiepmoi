@@ -15,30 +15,40 @@ import Page6 from "./Page/Page6";
 function App() {
   const [opened, setOpened] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [needsResume, setNeedsResume] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const hasStarted = useRef(false);
+  const isResuming = useRef(false);
 
-  // Tự thử tiếp tục nhạc khi quay lại website
-  useEffect(() => {
+  // Hàm tiếp tục phát nhạc
+  const resumeAudio = async () => {
     const audio = audioRef.current;
-    if (!audio) return;
 
-    const resumeAudio = async () => {
-      if (
-        hasStarted.current &&
-        document.visibilityState === "visible" &&
-        audio.paused &&
-        !audio.ended
-      ) {
-        try {
-          await audio.play();
-        } catch (error) {
-          console.log("Không thể tiếp tục phát nhạc:", error);
-        }
-      }
-    };
+    if (
+      !audio ||
+      !hasStarted.current ||
+      !audio.paused ||
+      isResuming.current
+    ) {
+      return;
+    }
 
+    isResuming.current = true;
+
+    try {
+      await audio.play();
+      setNeedsResume(false);
+    } catch (error) {
+      console.log("Trình duyệt đang chặn phát nhạc:", error);
+      setNeedsResume(true);
+    } finally {
+      isResuming.current = false;
+    }
+  };
+
+  // Tự động thử phát nhạc mỗi lần quay lại website
+  useEffect(() => {
     const handleVisibility = () => {
       if (document.visibilityState === "visible") {
         resumeAudio();
@@ -65,12 +75,15 @@ function App() {
     const audio = audioRef.current;
 
     if (audio) {
+      audio.volume = 0.5;
+      hasStarted.current = true;
+
       try {
-        audio.volume = 0.5;
         await audio.play();
-        hasStarted.current = true;
+        setNeedsResume(false);
       } catch (error) {
         console.log("Không thể phát nhạc:", error);
+        setNeedsResume(true);
       }
     }
 
@@ -78,6 +91,19 @@ function App() {
     setTimeout(() => {
       setShowContent(true);
     }, 4000);
+  };
+
+  // Người dùng bấm để tiếp tục nhạc nếu Chrome chặn
+  const handleResumeMusic = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    try {
+      await audio.play();
+      setNeedsResume(false);
+    } catch (error) {
+      console.log("Không thể tiếp tục phát nhạc:", error);
+    }
   };
 
   return (
@@ -97,7 +123,6 @@ function App() {
           {/* Phong bì */}
           <div className="envelope-wrapper">
             <div className="envelope">
-
               <div className="envelope-back" />
 
               <div className="envelope-paper">
@@ -108,20 +133,16 @@ function App() {
               </div>
 
               <div className="envelope-flap" />
-
               <div className="envelope-front" />
 
               <div className="envelope-bow">
                 🎀
               </div>
-
             </div>
           </div>
 
           {/* Lời mời */}
-          <h2>
-            Thân mời bạn
-          </h2>
+          <h2>Thân mời bạn</h2>
 
           <p>
             Một lời mời nhỏ, một ngày thật đặc biệt
@@ -136,7 +157,6 @@ function App() {
 
         </section>
       ) : (
-
         <div className="invitation-content">
           <Page1 />
           <Page2 />
@@ -145,7 +165,29 @@ function App() {
           <Page4 />
           <Page5 />
         </div>
+      )}
 
+      {/* Chỉ hiện khi trình duyệt không cho tự phát nhạc */}
+      {needsResume && opened && (
+        <button
+          onClick={handleResumeMusic}
+          style={{
+            position: "fixed",
+            right: "16px",
+            bottom: "20px",
+            zIndex: 99999,
+            padding: "10px 18px",
+            border: "none",
+            borderRadius: "30px",
+            background: "#7c1c27",
+            color: "#fff",
+            fontSize: "14px",
+            cursor: "pointer",
+            boxShadow: "0 3px 12px rgba(0,0,0,0.2)",
+          }}
+        >
+          ▶ Tiếp tục nhạc
+        </button>
       )}
 
     </main>
