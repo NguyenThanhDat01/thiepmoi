@@ -17,42 +17,52 @@ function App() {
   const [showContent, setShowContent] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement>(null);
+  const hasStarted = useRef(false);
 
-  // Thử phát lại nhạc khi quay về website
+  // Theo dõi và tiếp tục nhạc khi quay lại website
   useEffect(() => {
     const resumeAudio = () => {
       const audio = audioRef.current;
 
       if (
         document.visibilityState === "visible" &&
-        opened &&
+        hasStarted.current &&
         audio &&
         audio.paused
       ) {
         audio.play().catch((error) => {
-          console.log("Trình duyệt chưa cho phép phát lại nhạc:", error);
+          console.log("Không thể tự phát lại nhạc:", error);
         });
       }
     };
 
     document.addEventListener("visibilitychange", resumeAudio);
     window.addEventListener("pageshow", resumeAudio);
+    window.addEventListener("focus", resumeAudio);
 
     return () => {
       document.removeEventListener("visibilitychange", resumeAudio);
       window.removeEventListener("pageshow", resumeAudio);
+      window.removeEventListener("focus", resumeAudio);
     };
-  }, [opened]);
+  }, []);
 
+  // Mở thiệp và phát nhạc
   const openInvitation = async () => {
     if (opened) return;
 
     setOpened(true);
 
-    try {
-      await audioRef.current?.play();
-    } catch (error) {
-      console.log("Không thể phát nhạc:", error);
+    const audio = audioRef.current;
+
+    if (audio) {
+      try {
+        audio.volume = 0.5;
+        await audio.play();
+        hasStarted.current = true;
+      } catch (error) {
+        console.log("Không thể phát nhạc:", error);
+      }
     }
 
     // Đợi hiệu ứng mở phong bì hoàn tất
@@ -64,7 +74,7 @@ function App() {
   return (
     <main className="invitation">
 
-      {/* Nhạc nền */}
+      {/* Nhạc nền duy nhất cho toàn bộ website */}
       <audio
         ref={audioRef}
         src={nhac}
@@ -75,14 +85,10 @@ function App() {
       {!showContent ? (
         <section className={`opening ${opened ? "opened" : ""}`}>
 
-          {/* Phong bì */}
           <div className="envelope-wrapper">
             <div className="envelope">
-
-              {/* Mặt sau */}
               <div className="envelope-back" />
 
-              {/* Lá thư chứa ảnh thiệp */}
               <div className="envelope-paper">
                 <img
                   src={thiepTotNghiep}
@@ -90,24 +96,16 @@ function App() {
                 />
               </div>
 
-              {/* Nắp phong bì */}
               <div className="envelope-flap" />
-
-              {/* Mặt trước phong bì */}
               <div className="envelope-front" />
 
-              {/* Nơ */}
               <div className="envelope-bow">
                 🎀
               </div>
-
             </div>
           </div>
 
-          {/* Nội dung lời mời */}
-          <h2>
-            Thân mời bạn
-          </h2>
+          <h2>Thân mời bạn</h2>
 
           <p>
             Một lời mời nhỏ, một ngày thật đặc biệt
@@ -123,7 +121,6 @@ function App() {
         </section>
       ) : (
 
-        /* Nội dung thiệp sau khi mở */
         <div className="invitation-content">
           <Page1 />
           <Page2 />
