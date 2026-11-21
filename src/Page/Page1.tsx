@@ -93,12 +93,12 @@ function Page1() {
       <div
         style={{
           position: "absolute",
-          top: "68.5%",
-          left: "30%",
+          top: "66.5%",
+          left: "35%",
           width: "64%",
           textAlign: "center",
           fontFamily: "'Times New Roman', serif",
-          fontSize: "clamp(16px, 5.2vw, 30px)",
+          fontSize: "clamp(16px, 5.2vw, 18px)",
           fontWeight: "bold",
           color: "#861d2d",
           whiteSpace: "nowrap",
@@ -115,7 +115,9 @@ function Page1() {
               : "none",
           }}
         >
-          11h00-12h00
+          Trước lễ: 6h00-08h00
+          <br/>
+          Sau lễ:   10h30-11h00
         </span>
       </div>
 
