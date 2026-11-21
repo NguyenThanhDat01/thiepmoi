@@ -1,9 +1,9 @@
-
 import { useEffect, useRef, useState } from "react";
-import background from "../assets/backgourg7.png";
+import background from "../assets/backgourg1.png";
 import anh1 from "../assets/anh1.jpg";
 import anh2 from "../assets/anh2.jpg";
 import anh3 from "../assets/anh3.jpg";
+import noDo from "../assets/backgourg7.png"; // Đổi đúng tên file ảnh nơ của bạn
 
 function Page2() {
   const pageRef = useRef<HTMLDivElement>(null);
@@ -165,10 +165,10 @@ function Page2() {
           <div
             style={{
               position: "absolute",
-              top: "9",
+              top: "-30px",
               left: "0",
               width: "125px",
-              height: "420px",
+              height: "440px",
               backgroundColor: "#85132f",
               padding: "10px 13px",
               boxSizing: "border-box",
@@ -194,9 +194,27 @@ function Page2() {
                   objectPosition: "center",
                   display: "block",
                   flexShrink: 0,
+                  marginTop: "5px",
                 }}
               />
             ))}
+
+            {/* NƠ Ở ĐÁY KHUNG 3 ẢNH */}
+            <img
+              src={noDo}
+              alt="Nơ trang trí"
+              style={{
+                position: "absolute",
+                bottom: "-30px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: "110px",
+                height: "auto",
+                objectFit: "contain",
+                pointerEvents: "none",
+                zIndex: 4,
+              }}
+            />
           </div>
 
           {/* GIỮ NGUYÊN PHẦN CHỮ CỦA BẠN */}
@@ -206,46 +224,36 @@ function Page2() {
               width: "55%",
               maxWidth: "285px",
               marginLeft: "135px",
-              padding: "40px 8px",
+               marginTop: "-8px",
+              padding: "20px 8px",
               boxSizing: "border-box",
               minWidth: 0,
               color: "#4A1728",
-              fontFamily: "Georgia, serif",
+              fontFamily: '"Times New Roman", Times, serif',
               fontSize: "clamp(12px, 3.2vw, 13px)",
-              lineHeight: 1.55,
+              lineHeight: 1.25,
               textAlign: "justify",
               opacity: visible ? 1 : 0,
               animation: visible
                 ? "contentFade 1.5s ease 1s both"
                 : "none",
             }}
-          >
-            Có những người xuất hiện trong thanh xuân không chỉ để cùng ta
-            đi qua những ngày tháng tuổi trẻ, mà còn để biến những ngày
-            bình thường trở thành những kỷ niệm thật đặc biệt.
+            
+ >
+  Một hành trình tại IUH đã dần khép lại, mang theo những tháng ngày đáng nhớ, từ những bỡ ngỡ đầu tiên khi bước chân vào giảng đường đến những lúc 
+           trưởng thành hơn qua từng bài học, thử thách và trải nghiệm.
 
             <br />
             <br />
 
-            Cảm ơn vì đã cùng nhau cười thật nhiều, chia sẻ những câu chuyện
-            chẳng đầu chẳng cuối, cùng trải qua những ngày học tập bận rộn
-            và cả những khoảnh khắc đáng nhớ dưới mái trường.
-
+Trên hành trình ấy, mình thật may mắn khi luôn nhận được sự yêu thương, quan tâm và đồng hành từ gia đình, thầy cô, bạn bè, anh chị cùng những người đã từng gặp gỡ. Cảm ơn tất cả vì đã góp phần tạo nên một quãng đời sinh viên thật nhiều ý nghĩa và kỷ niệm đẹp.
             <br />
+             <br />
+
+Tấm bằng tốt nghiệp hôm nay không chỉ là dấu mốc của những nỗ lực đã qua, mà còn là khởi đầu cho những ước mơ mới. Mong rằng mỗi chúng ta sẽ luôn vững bước, gặp nhiều may mắn và tỏa sáng trên hành trình phía trước! ❤️            <br />
             <br />
 
-            <div
-              style={{
-                textAlign: "center",
-                fontStyle: "italic",
-                fontWeight: "bold",
-                color: "#a20d36",
-                lineHeight: 1.6,
-              }}
-            >
-              "We may be going different ways, but you'll always be a part
-              of my favorite chapter — Youth."
-            </div>
+           
           </div>
         </div>
       </div>

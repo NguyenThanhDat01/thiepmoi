@@ -39,12 +39,12 @@ function App() {
     <main className="invitation">
 
       {/* Nhạc nền */}
-      <audio
+      { <audio
         ref={audioRef}
         src={nhac}
         loop
         preload="auto"
-      />
+      /> }
 
       {!showContent ? (
         <section className={`opening ${opened ? "opened" : ""}`}>
