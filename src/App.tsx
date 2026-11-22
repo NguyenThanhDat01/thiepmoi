@@ -119,7 +119,7 @@ function App() {
     // Đợi hiệu ứng mở phong bì hoàn tất
     setTimeout(() => {
       setShowContent(true);
-    }, 5000);
+    }, 4500);
   };
 
   // Bật lại nhạc khi trình duyệt chặn tự động
