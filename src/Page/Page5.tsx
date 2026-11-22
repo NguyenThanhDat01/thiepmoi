@@ -223,7 +223,7 @@ function Page5() {
             Linlin nên đón bạn vào lúc nào đây ta? 🥰
           </label>
 
-          {["🌷 06:00 – 08:00", "🎀 10:00 – 11:00"].map((item) => (
+          {["🌷 06:00 – 08:00", "🎀 10:30 – 11:00"].map((item) => (
             <label key={item} style={optionStyle}>
               <input
                 type="radio"
